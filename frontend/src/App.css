@@ -135,11 +135,50 @@ img {
   }
 }
 
+/* Telegram WebApp specific styles */
+.tg-webapp {
+  /* Prevent rubber banding on iOS */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Telegram safe areas */
+.tg-safe-area-top {
+  padding-top: max(env(safe-area-inset-top), 12px);
+}
+
+.tg-safe-area-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 12px);
+}
+
+/* Telegram Main Button space */
+.tg-main-button-space {
+  padding-bottom: 60px;
+}
+
 /* Mobile optimizations */
 @media (max-width: 640px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
+  }
+  
+  /* Smaller text on mobile */
+  .font-display {
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Extra small screens (Telegram mobile) */
+@media (max-width: 380px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 
@@ -156,4 +195,27 @@ body {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Touch-friendly tap targets */
+@media (pointer: coarse) {
+  button, a, input, select {
+    min-height: 44px;
+  }
+}
+
+/* Prevent text selection on buttons */
+button {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Smooth transitions for interactive elements */
+button, a {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+button:active, a:active {
+  transform: scale(0.98);
+  opacity: 0.9;
 }
