@@ -1,53 +1,54 @@
-import { useEffect } from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import { Toaster } from "@/components/ui/sonner";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+// Store Pages
+import StorePage from "@/pages/store/StorePage";
+import ProductPage from "@/pages/store/ProductPage";
+import CartPage from "@/pages/store/CartPage";
+import CheckoutPage from "@/pages/store/CheckoutPage";
+import VerificationPage from "@/pages/store/VerificationPage";
+import OrderStatusPage from "@/pages/store/OrderStatusPage";
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+// Admin Pages
+import AdminLayout from "@/pages/admin/AdminLayout";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminOrders from "@/pages/admin/AdminOrders";
+import AdminProducts from "@/pages/admin/AdminProducts";
+import AdminVerifications from "@/pages/admin/AdminVerifications";
+import AdminSettings from "@/pages/admin/AdminSettings";
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+// Context
+import { CartProvider } from "@/context/CartContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <AuthProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Store Routes */}
+            <Route path="/" element={<StorePage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/verification/:orderId" element={<VerificationPage />} />
+            <Route path="/order/:orderId" element={<OrderStatusPage />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="verifications" element={<AdminVerifications />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Route>
+          </Routes>
+          <Toaster position="top-right" richColors />
+        </BrowserRouter>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

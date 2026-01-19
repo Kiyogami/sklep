@@ -1,34 +1,159 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Prascy Bandyci - Global App Styles */
+
+/* Prevent text-align center on App */
+.App {
+  min-height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Remove default link styles */
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
 }
 
-.App-link {
-    color: #61dafb;
+/* Selection color */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Focus visible styles */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Image defaults */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Video container */
+.video-container {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: hsl(var(--card));
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Recording indicator */
+.recording-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: hsl(var(--destructive));
+  animation: pulse-recording 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-recording {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+/* Map container */
+.map-container {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+}
+
+/* Timeline styles */
+.timeline-line {
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--primary)),
+    hsl(var(--border))
+  );
+}
+
+.timeline-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(var(--card));
+  border: 2px solid hsl(var(--primary));
+  z-index: 1;
+}
+
+.timeline-dot.completed {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.timeline-dot.pending {
+  border-color: hsl(var(--muted-foreground));
+}
+
+/* Product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Admin sidebar active state */
+.admin-nav-item.active {
+  background: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+  border-left: 3px solid hsl(var(--primary));
+}
+
+/* Telegram WebApp viewport fix */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+/* Prevent overscroll on mobile */
+body {
+  overscroll-behavior: none;
+}
+
+/* Hide scrollbar on mobile for specific elements */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
