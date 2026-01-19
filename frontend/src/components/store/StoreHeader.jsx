@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Menu, X, User } from 'lucide-react';
+import { ShoppingBag, Menu, X, User, Package } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -27,7 +27,7 @@ export const StoreHeader = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6">
             <Link 
               to="/" 
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
@@ -35,10 +35,10 @@ export const StoreHeader = () => {
               Sklep
             </Link>
             <Link 
-              to="/#products" 
+              to="/orders" 
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
             >
-              Produkty
+              Moje zamówienia
             </Link>
             <Link 
               to="/#about" 
@@ -49,10 +49,17 @@ export const StoreHeader = () => {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* My Orders (Desktop icon) */}
+            <Link to="/orders" className="hidden sm:block">
+              <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-10">
+                <Package className="h-5 w-5" />
+              </Button>
+            </Link>
+
             {/* Telegram User Avatar */}
             {isTelegram && user && (
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+              <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                   <User className="w-3 h-3 text-primary" />
                 </div>
@@ -60,6 +67,7 @@ export const StoreHeader = () => {
               </div>
             )}
 
+            {/* Cart */}
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative h-9 w-9 sm:h-10 sm:w-10">
                 <ShoppingBag className="h-5 w-5" />
@@ -88,9 +96,9 @@ export const StoreHeader = () => {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <nav className="md:hidden py-4 border-t border-border animate-fade-in">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
               {isTelegram && user && (
-                <div className="flex items-center gap-2 px-2 py-2 rounded-lg bg-primary/5">
+                <div className="flex items-center gap-2 px-2 py-3 rounded-lg bg-primary/5 mb-2">
                   <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                     <User className="w-4 h-4 text-primary" />
                   </div>
@@ -104,23 +112,26 @@ export const StoreHeader = () => {
               )}
               <Link 
                 to="/" 
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
+                className="flex items-center gap-3 text-sm font-medium text-foreground hover:text-primary transition-colors px-2 py-3 rounded-lg hover:bg-muted"
                 onClick={() => setMobileMenuOpen(false)}
               >
+                <ShoppingBag className="w-5 h-5" />
                 Sklep
               </Link>
               <Link 
-                to="/#products" 
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
+                to="/orders" 
+                className="flex items-center gap-3 text-sm font-medium text-foreground hover:text-primary transition-colors px-2 py-3 rounded-lg hover:bg-muted"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Produkty
+                <Package className="w-5 h-5" />
+                Moje zamówienia
               </Link>
               <Link 
                 to="/#about" 
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
+                className="flex items-center gap-3 text-sm font-medium text-foreground hover:text-primary transition-colors px-2 py-3 rounded-lg hover:bg-muted"
                 onClick={() => setMobileMenuOpen(false)}
               >
+                <User className="w-5 h-5" />
                 O nas
               </Link>
             </div>
