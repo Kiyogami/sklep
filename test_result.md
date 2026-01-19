@@ -203,16 +203,18 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Store Home Page"
-    - "Product Detail Page"
     - "Shopping Cart Flow"
     - "Checkout Page"
-    - "Admin Panel"
     - "Mobile Responsiveness"
-  stuck_tasks: []
-  test_all: true
-  test_priority: "high_first"
+  stuck_tasks:
+    - "Shopping Cart Flow"
+    - "Checkout Page"
+    - "Mobile Responsiveness"
+  test_all: false
+  test_priority: "stuck_first"
 
 agent_communication:
   - agent: "testing"
     message: "Starting comprehensive testing of Prascy Bandyci e-commerce store. Will test all major flows including store pages, admin panel, and mobile responsiveness. Testing URL: https://swift-cart-51.preview.emergentagent.com"
+  - agent: "testing"
+    message: "TESTING COMPLETED: Found critical issues in cart functionality and checkout process. Homepage, product detail, and admin panel working correctly. Cart items not displaying properly, checkout form validation preventing progression, and mobile responsiveness needs improvement. Payment integration incomplete - only BLIK visible, missing Stripe/Przelewy24/Telegram Pay options."
