@@ -1,14 +1,33 @@
-- name: Show Deno / Node version
-  run: |
-    deno --version || echo "Deno not found"
-    node --version
-    npm --version
+name: Deno Build & Test
 
-- name: Install deps (with debug)
-  run: |
-    npm ci --verbose   # or deno cache --reload main.ts
-    # or for Deno: deno cache --allow-scripts ...
+on: [push, pull_request]
 
-- name: Build with verbose output
-  run: npm run build -- --verbose   # if webpack, add --verbose or --progress
-  # or deno task build -- --log-level=debug
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        deno-version: [v1.x, v2.x]   # lub konkretne wersje
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2   # ← najnowsza wersja akcji
+        with:
+          deno-version: ${{ matrix.deno-version }}
+
+      - name: Cache Deno dependencies
+        run: deno cache --reload main.ts   # ← lub Twój entrypoint (main.ts / app.ts / etc.)
+
+      # ────────────────────────────────────────────────
+      # ← TU dodajesz swój krok Build
+      - name: Build with Deno
+        run: deno task build --allow-scripts
+
+      # ewentualnie kolejne kroki:
+      - name: Run tests
+        run: deno task test
+
+      - name: Lint
+        run: deno lint
