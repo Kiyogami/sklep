@@ -60,6 +60,9 @@
     "build": "craco build",
     "test": "craco test"
   },
+  "scripts": {
+  "build": "webpack --mode production"
+}
   "browserslist": {
     "production": [
       ">0.2%",
