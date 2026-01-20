@@ -1,14 +1,28 @@
-- name: Show Deno / Node version
-  run: |
-    deno --version || echo "Deno not found"
-    node --version
-    npm --version
+name: NodeJS with Webpack
 
-- name: Install deps (with debug)
-  run: |
-    npm ci --verbose   # or deno cache --reload main.ts
-    # or for Deno: deno cache --allow-scripts ...
+on: [push, pull_request]
 
-- name: Build with verbose output
-  run: npm run build -- --verbose   # if webpack, add --verbose or --progress
-  # or deno task build -- --log-level=debug
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with Webpack
+        run: npm run build  # zakładam, że masz "build": "webpack ..." w package.json
+
+      - name: Lint (opcjonalnie)
+        run: npm run lint || true
