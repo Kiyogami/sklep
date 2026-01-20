@@ -1,11 +1,6 @@
 {
   "name": "sklep-frontend",
   "version": "1.0.0",
-  "scripts": {
-    "build": "webpack --mode production"   
-  },
-  
-}
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -65,9 +60,6 @@
     "build": "craco build",
     "test": "craco test"
   },
-  "scripts": {
-  "build": "webpack --mode production"
-}
   "browserslist": {
     "production": [
       ">0.2%",
