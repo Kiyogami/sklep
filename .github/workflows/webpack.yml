@@ -1,20 +1,36 @@
-- name: Setup Node.js
-  uses: actions/setup-node@v4
-  with:
-    node-version: 20
-    cache: 'yarn'                  # cache yarn.lock
-    cache-dependency-path: frontend/yarn.lock   # jeśli yarn.lock będzie
+name: Frontend Build (CRACO/CRA)
 
-- name: Enable Corepack & Yarn version
-  working-directory: frontend
-  run: |
-    corepack enable
-    yarn set version 1.22.22   # lub yarn set version from package.json
+on:
+  push:
+    paths:
+      - 'frontend/**'   # triggeruje TYLKO przy zmianach w frontend
+  pull_request:
 
-- name: Install dependencies with Yarn
-  working-directory: frontend
-  run: yarn install --immutable   # --immutable = frozen lockfile, bezpieczne w CI
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-- name: Build frontend
-  working-directory: frontend
-  run: yarn build   # użyje "craco build" z package.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci   # szybkie i bezpieczne z lockfilem
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build   # użyje "craco build"
+
+      - name: Debug on failure (opcjonalnie)
+        if: failure()
+        working-directory: frontend
+        run: |
+          ls -la
+          npm run build -- --verbose
