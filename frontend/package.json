@@ -1,6 +1,11 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "sklep-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack --mode production"   // lub "webpack --mode production" jeśli wolisz webpack
+  },
+  
+}
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
