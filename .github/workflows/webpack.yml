@@ -1,27 +1,14 @@
-name: NodeJS with Webpack
+- name: Show Deno / Node version
+  run: |
+    deno --version || echo "Deno not found"
+    node --version
+    npm --version
 
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+- name: Install deps (with debug)
+  run: |
+    npm ci --verbose   # or deno cache --reload main.ts
+    # or for Deno: deno cache --allow-scripts ...
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-      
-      - name: Build
-        run: |
-          cd frontend
-          npm install
-          npx webpack
+- name: Build with verbose output
+  run: npm run build -- --verbose   # if webpack, add --verbose or --progress
+  # or deno task build -- --log-level=debug
