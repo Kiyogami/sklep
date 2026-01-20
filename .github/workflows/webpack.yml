@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x, 20.x, 22.x]  # możesz usunąć 22.x jeśli pada tylko tam
 
     steps:
       - uses: actions/checkout@v4
@@ -18,11 +18,20 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      - name: Show versions (debug)
+        run: |
+          node --version
+          npm --version
+
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --verbose  # <-- verbose pokaże co się dzieje
 
       - name: Build with Webpack
-        run: npm run build  # zakładam, że masz "build": "webpack ..." w package.json
+        run: npm run build -- --verbose --progress  # <-- dodaj flagi dla webpacka (więcej info w logach)
 
-      - name: Lint (opcjonalnie)
-        run: npm run lint || true
+      - name: If build fails, show more info
+        if: failure()
+        run: |
+          ls -la
+          cat package.json || true
+          npm ls || true
