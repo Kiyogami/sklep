@@ -3,7 +3,7 @@ name: Deno Build
 on: [push, pull_request]
 
 jobs:
-  build:
+  deno:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -11,22 +11,22 @@ jobs:
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.x  # lub v1.x jeśli potrzebujesz starszej
+          deno-version: v2.x  # zmień na v1.x jeśli Twój kod wymaga starszej wersji
 
-      - name: Cache Deno dependencies
+      - name: Cache Deno
         uses: actions/cache@v4
         with:
           path: ~/.deno
-          key: deno-${{ hashFiles('deno.lock', 'deno.json*', 'import_map.json') }}
+          key: deno-${{ hashFiles('deno.lock', 'deno.json*', '**/deno.lock', '**/deno.json*') }}
 
       - name: Cache & install dependencies
-        run: deno cache --reload main.ts  # zmień main.ts na Twój główny plik / entrypoint
+        run: deno cache --reload main.ts   # ZMIEŃ main.ts na rzeczywisty entrypoint (np. backend/server.ts, app.ts)
 
       - name: Build with Deno
-        run: deno task build --allow-scripts  # <-- tu jest to, o co pytałeś
+        run: deno task build --allow-scripts   # musi istnieć w deno.json "tasks": {"build": "..."}
 
       - name: Run tests (opcjonalnie)
-        run: deno task test || true  # nie przerywa jeśli testy nie istnieją
+        run: deno task test || true
 
       - name: Lint
         run: deno lint
