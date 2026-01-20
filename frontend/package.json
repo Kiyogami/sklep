@@ -2,7 +2,7 @@
   "name": "sklep-frontend",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack --mode production"   // lub "webpack --mode production" jeśli wolisz webpack
+    "build": "webpack --mode production"   
   },
   
 }
